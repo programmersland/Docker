@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+  web:
+    container_name: express
+    restart: always
+    build: .
+    ports:
+      - "3001:3000"
+    links:
+      - db
+    networks:
+      - redExpress
+
+  db:
+    container_name: mongodb
+    restart: always
+    image: mongo
+    ports:
+      - "5005:27017"
+    networks:
+      - redExpress
+    volumes:
+      - mongo-datos:/data/db
+      # rutas mysql => /var/lib/mysql
+      # rutas postgres => /var/lib/postgresql/data
+
+networks:
+  redExpress:
+    driver: bridge
+
+volumes:
+  mongo-datos:
